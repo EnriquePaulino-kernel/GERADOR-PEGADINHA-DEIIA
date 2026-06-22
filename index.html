@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Frases Motivacionais — A frase certa pra hoje</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grad-1:#5B21B6;
+    --grad-2:#C026D3;
+    --grad-3:#F472B6;
+    --cream:#FFF8F0;
+    --gold:#F2B33D;
+    --ink:#2D1B4E;
+    --muted:#8B7FA8;
+    --shadow:rgba(45,27,78,.28);
+    --r-red:#ff3b3b;
+    --r-blue:#3ba0ff;
+    --r-yellow:#ffd23b;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+
+  body{
+    min-height:100vh;
+    font-family:'Quicksand',sans-serif;
+    background:linear-gradient(135deg,var(--grad-1),var(--grad-2) 55%,var(--grad-3));
+    background-attachment:fixed;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 16px;
+    overflow-x:hidden;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:600px;
+    text-align:center;
+    animation:riseIn .7s ease both;
+  }
+
+  @keyframes riseIn{
+    from{opacity:0; transform:translateY(18px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.35);
+    color:#fff;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:.04em;
+    padding:8px 16px;
+    border-radius:999px;
+    margin-bottom:18px;
+    backdrop-filter:blur(4px);
+  }
+
+  h1{
+    color:#fff;
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:clamp(26px,5vw,38px);
+    line-height:1.15;
+    margin:0 0 8px;
+    text-shadow:0 2px 18px rgba(0,0,0,.18);
+  }
+
+  .subtitle{
+    color:rgba(255,255,255,.85);
+    font-size:15px;
+    margin:0 0 28px;
+    font-weight:500;
+  }
+
+  .card{
+    position:relative;
+    background:var(--cream);
+    border-radius:22px;
+    padding:48px 36px 38px;
+    box-shadow:0 24px 60px var(--shadow);
+    margin-bottom:22px;
+    transition:transform .25s ease;
+  }
+
+  .quote-mark{
+    position:absolute;
+    top:6px;
+    left:24px;
+    font-family:'Playfair Display',serif;
+    font-size:84px;
+    color:var(--gold);
+    opacity:.55;
+    line-height:1;
+    user-select:none;
+  }
+
+  .quote-text{
+    font-family:'Playfair Display',serif;
+    font-style:italic;
+    font-weight:700;
+    font-size:clamp(19px,3.4vw,25px);
+    line-height:1.45;
+    color:var(--ink);
+    min-height:96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 0 18px;
+    transition:opacity .12s ease;
+  }
+
+  .quote-author{
+    font-size:14px;
+    font-weight:600;
+    color:var(--muted);
+    letter-spacing:.03em;
+  }
+
+  .divider{
+    width:48px;
+    height:3px;
+    background:var(--gold);
+    border-radius:3px;
+    margin:18px auto;
+  }
+
+  .stats{
+    font-size:13px;
+    color:var(--muted);
+    font-weight:600;
+  }
+
+  /* glitch effect right before the reveal */
+  .card.glitching{
+    animation:cardGlitch .55s steps(2,end) 2;
+  }
+  @keyframes cardGlitch{
+    0%{transform:translate(0,0) skewX(0deg); filter:hue-rotate(0deg);}
+    20%{transform:translate(-6px,2px) skewX(2deg); filter:hue-rotate(15deg);}
+    40%{transform:translate(6px,-2px) skewX(-2deg); filter:hue-rotate(-15deg);}
+    60%{transform:translate(-3px,1px) skewX(1deg); filter:hue-rotate(8deg);}
+    80%{transform:translate(3px,-1px) skewX(-1deg); filter:hue-rotate(-8deg);}
+    100%{transform:translate(0,0) skewX(0deg); filter:hue-rotate(0deg);}
+  }
+
+  .cta-btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    background:linear-gradient(135deg,var(--gold),#f59e0b);
+    color:#3a2400;
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:17px;
+    padding:16px 38px;
+    border-radius:999px;
+    box-shadow:0 14px 30px rgba(0,0,0,.22);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-2px); box-shadow:0 18px 36px rgba(0,0,0,.28);}
+  .cta-btn:active{transform:translateY(1px) scale(.98);}
+  .cta-btn:focus-visible{outline:3px solid #fff; outline-offset:3px;}
+  .cta-btn:disabled{cursor:default; opacity:.85;}
+
+  .cta-sub{
+    margin-top:14px;
+    font-size:13px;
+    color:rgba(255,255,255,.8);
+    font-weight:600;
+  }
+
+  footer{
+    margin-top:34px;
+    font-size:12px;
+    color:rgba(255,255,255,.65);
+  }
+  footer .icons{
+    margin-top:8px;
+    font-size:18px;
+    letter-spacing:10px;
+  }
+
+  .visually-hidden{
+    position:absolute;
+    width:1px;height:1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+  }
+
+  /* ---------------- PRANK OVERLAY ---------------- */
+  .overlay{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    text-align:center;
+    background:linear-gradient(120deg,#1a0033,#3a0066,#660033,#1a0033);
+    background-size:300% 300%;
+    animation:bgCycle 9s ease infinite;
+    opacity:0;
+    pointer-events:none;
+    transform:scale(.92);
+    transition:opacity .45s ease, transform .45s ease;
+  }
+  .overlay.visible{
+    opacity:1;
+    pointer-events:auto;
+    transform:scale(1);
+  }
+  @keyframes bgCycle{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+  }
+
+  .confetti{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .confetti span{
+    position:absolute;
+    top:-40px;
+    font-size:22px;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{
+    to{ transform:translateY(115vh) rotate(360deg); }
+  }
+
+  .reveal-heading{
+    position:relative;
+    color:#fff;
+    font-weight:700;
+    font-size:clamp(24px,5.6vw,42px);
+    margin:0 0 22px;
+    text-shadow:
+      2px 0 var(--r-red),
+      -2px 0 var(--r-blue),
+      0 4px 20px rgba(0,0,0,.4);
+    animation:popIn .5s cubic-bezier(.2,1.4,.4,1) both;
+  }
+  @keyframes popIn{
+    0%{opacity:0; transform:scale(.4) rotate(-4deg);}
+    60%{opacity:1; transform:scale(1.08) rotate(1deg);}
+    100%{opacity:1; transform:scale(1) rotate(0deg);}
+  }
+
+  .video-frame{
+    width:min(420px,85vw);
+    aspect-ratio:1/1;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 6px rgba(255,255,255,.12);
+    background:#000;
+  }
+  .video-frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .caption{
+    color:rgba(255,255,255,.78);
+    font-size:13px;
+    font-weight:600;
+    margin:14px 0 26px;
+  }
+
+  .overlay-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+  }
+
+  .ghost-btn{
+    appearance:none;
+    border:1px solid rgba(255,255,255,.45);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-family:'Quicksand',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    padding:11px 20px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+  }
+  .ghost-btn:hover{ background:rgba(255,255,255,.2); transform:translateY(-1px); }
+  .ghost-btn:focus-visible{ outline:3px solid #fff; outline-offset:2px; }
+
+  .ghost-btn.solid{
+    background:var(--gold);
+    border-color:var(--gold);
+    color:#3a2400;
+  }
+  .ghost-btn.solid:hover{ background:#f59e0b; }
+
+  .post-prank{
+    background:rgba(255,255,255,.95) !important;
+  }
+  .post-prank .quote-text{
+    font-family:'Quicksand',sans-serif;
+    font-style:normal;
+    font-weight:700;
+    font-size:18px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="wrap" id="hero">
+    <span class="badge" id="dateBadge">✨ FRASE DO DIA</span>
+    <h1>Gerador de Frases Motivacionais</h1>
+    <p class="subtitle">A frase certa, no momento certo, gerada só pra você.</p>
+
+    <div class="card" id="card">
+      <span class="quote-mark" aria-hidden="true">“</span>
+      <p class="quote-text" id="quoteText">Clique no botão abaixo para gerar sua frase personalizada do dia.</p>
+      <p class="quote-author" id="quoteAuthor">— Sabedoria Popular</p>
+      <div class="divider"></div>
+      <p class="stats">🔥 87.432 frases geradas hoje · 💬 312 compartilhamentos agora</p>
+    </div>
+
+    <button class="cta-btn" id="genBtn">✨ Gerar Frase ✨</button>
+    <p class="cta-sub">Toque quantas vezes quiser — cada frase é única.</p>
+
+    <footer>
+      © 2026 Frases.com — Inspiração todos os dias
+      <div class="icons" aria-hidden="true">📘 📸 🐦</div>
+    </footer>
+  </div>
+
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="Resultado da geração">
+    <div class="confetti" id="confetti" aria-hidden="true"></div>
+    <h2 class="reveal-heading">🎉 VOCÊ CAIU NA PEGADINHA! 🎉</h2>
+    <div class="video-frame">
+      <img id="prankGif" alt="Rick Astley dançando" src="">
+    </div>
+    <p class="caption">Abrimos o YouTube numa nova aba pra você. Sua "frase motivacional" de hoje é, na verdade, uma promessa que o Rick nunca quebra.</p>
+    <div class="overlay-actions">
+      <button class="ghost-btn solid" id="unmuteBtn">▶️ Não abriu? Clique pra assistir</button>
+      <button class="ghost-btn" id="copyBtn">📋 Copiar link da pegadinha</button>
+      <button class="ghost-btn" id="closeBtn">🙈 Já entendi, fechar</button>
+    </div>
+  </div>
+
+  <p class="visually-hidden" id="liveStatus" aria-live="polite"></p>
+
+<script>
+(function(){
+  var quotes = [
+    ["A vida é 10% o que acontece com você e 90% como você reage a isso.", "Sabedoria Popular"],
+    ["Não espere por oportunidades, construa-as com suas próprias mãos.", "Ditado Moderno"],
+    ["Cada amanhecer é um convite silencioso para recomeçar.", "Reflexões do Dia"],
+    ["O sucesso nasce da vontade firme de chegar lá, um passo por vez.", "Pensamento Positivo"],
+    ["Acredite no seu potencial: ele é sempre maior do que você imagina.", "Mente Forte"],
+    ["Pequenas atitudes diárias constroem grandes transformações.", "Sabedoria Popular"],
+    ["O limite das suas conquistas é do tamanho da sua persistência.", "Ditado Moderno"]
+  ];
+
+  var hero = document.getElementById('hero');
+  var card = document.getElementById('card');
+  var quoteText = document.getElementById('quoteText');
+  var quoteAuthor = document.getElementById('quoteAuthor');
+  var genBtn = document.getElementById('genBtn');
+  var overlay = document.getElementById('overlay');
+  var confettiBox = document.getElementById('confetti');
+  var liveStatus = document.getElementById('liveStatus');
+  var dateBadge = document.getElementById('dateBadge');
+
+  var meses = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+  var hoje = new Date();
+  dateBadge.textContent = "✨ FRASE DO DIA · " + hoje.getDate() + " de " + meses[hoje.getMonth()];
+
+  var shuffleInterval = null;
+  var revealed = false;
+
+  function randomQuote(){
+    return quotes[Math.floor(Math.random()*quotes.length)];
+  }
+
+  function startShuffle(){
+    var ticks = 0;
+    shuffleInterval = setInterval(function(){
+      var q = randomQuote();
+      quoteText.textContent = q[0];
+      quoteAuthor.textContent = "— " + q[1];
+      ticks++;
+      if(ticks > 6){
+        clearInterval(shuffleInterval);
+      }
+    }, 110);
+  }
+
+  function spawnConfetti(){
+    var emojis = ["🎉","✨","🕺","🎶","🤣","🪩","⭐"];
+    for(var i=0;i<28;i++){
+      (function(){
+        var s = document.createElement('span');
+        s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        s.style.left = (Math.random()*100) + "%";
+        s.style.animationDuration = (3 + Math.random()*2.5) + "s";
+        s.style.animationDelay = (Math.random()*1.2) + "s";
+        s.style.fontSize = (16 + Math.random()*18) + "px";
+        confettiBox.appendChild(s);
+        setTimeout(function(){ s.remove(); }, 7000);
+      })();
+    }
+  }
+
+  function reveal(){
+    overlay.classList.add('visible');
+    spawnConfetti();
+    document.title = "🤣 ENGANADO! — Frases.com";
+    liveStatus.textContent = "Surpresa! Isso era uma pegadinha. O YouTube abriu numa nova aba e o Rick está dançando aqui.";
+
+    document.getElementById('prankGif').src = "https://media.giphy.com/media/i5FjqoLZajSKgFi7kF/giphy.gif";
+
+    var newTab = window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ", "_blank");
+    if(!newTab){
+      liveStatus.textContent += " O navegador bloqueou a aba automática — use o botão para abrir manualmente.";
+    }
+  }
+
+  genBtn.addEventListener('click', function(){
+    if(revealed) return;
+    genBtn.disabled = true;
+    genBtn.textContent = "Gerando...";
+    startShuffle();
+
+    setTimeout(function(){ card.classList.add('glitching'); }, 550);
+
+    setTimeout(function(){
+      clearInterval(shuffleInterval);
+      card.classList.remove('glitching');
+      revealed = true;
+      reveal();
+    }, 1050);
+  });
+
+  document.getElementById('unmuteBtn').addEventListener('click', function(){
+    window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var btn = this;
+    var url = window.location.href;
+    function done(ok){
+      btn.textContent = ok ? "✅ Link copiado!" : "📋 Copiar link da pegadinha";
+      setTimeout(function(){ btn.textContent = "📋 Copiar link da pegadinha"; }, 1800);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){ done(true); }).catch(function(){ done(false); });
+    } else {
+      done(false);
+    }
+  });
+
+  document.getElementById('closeBtn').addEventListener('click', function(){
+    overlay.classList.remove('visible');
+    document.getElementById('prankVideo').src = "";
+    document.title = "Gerador de Frases Motivacionais";
+
+    card.classList.add('post-prank');
+    quoteText.textContent = "Essa frase foi 100% gerada por inteligência artificial só para te fazer ouvir aquela música. 🎶";
+    quoteAuthor.textContent = "— Você, há 30 segundos";
+    genBtn.textContent = "🔄 Pregar em outra pessoa";
+    genBtn.disabled = false;
+    genBtn.onclick = function(){
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(window.location.href);
+      }
+      genBtn.textContent = "✅ Link copiado, agora manda pra alguém!";
+    };
+  });
+})();
+</script>
+</body>
+</html>
